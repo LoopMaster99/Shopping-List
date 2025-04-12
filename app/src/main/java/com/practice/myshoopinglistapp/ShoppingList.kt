@@ -12,9 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.practice.myshoopinglistapp.ui.theme.MyShoopingListAppTheme
 
 
@@ -102,6 +108,7 @@ fun ShoppingList(){
                         value = itemName,
                         onValueChange = { itemName = it },
                         singleLine = true,
+                        label = { Text("Name") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp)
@@ -113,6 +120,7 @@ fun ShoppingList(){
                         value = itemQuantity,
                         onValueChange = { itemQuantity = it },
                         singleLine = true,
+                        label = { Text("Quantity") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(8.dp)
@@ -132,10 +140,42 @@ fun ShoppingListItem(
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp)
-        .border(border = BorderStroke(2.dp, Color.Gray), shape = RoundedCornerShape(10.dp))
+        .border(border = BorderStroke(2.dp, Color.Gray), shape = RoundedCornerShape(10.dp)),
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Text(text = item.name, modifier = Modifier.padding(8.dp))
-        Text(text = item.quantity.toString())
+        Text(
+            text = item.name,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(8.dp)
+        )
+        Text(
+            text = "Qty: ${item.quantity}",
+            fontSize = 20.sp,
+            modifier = Modifier.padding(8.dp)
+        )
+        Row(
+            modifier = Modifier.padding(8.dp)
+        ){
+            IconButton(
+                onClick = onEditClick,
+                enabled = !item.isEditing
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit"
+                )
+            }
+            IconButton(
+                onClick = onDeleteClick,
+                enabled = !item.isEditing
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Delete"
+                )
+            }
+        }
+
     }
 }
 
